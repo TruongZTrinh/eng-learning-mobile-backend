@@ -8,8 +8,6 @@ use App\Http\Controllers\Api\Auth\NewPasswordApiController;
 use App\Http\Controllers\Api\Auth\PasswordApiController;
 use App\Http\Controllers\Api\Auth\PasswordResetLinkApiController;
 use App\Http\Controllers\Api\Auth\VerifyEmailApiController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\RegisteredUserApiController;
 use Illuminate\Http\Request;
@@ -56,12 +54,9 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('throttle:6,1')
         ->name('api.verification.send');
 
-
-
 });
+
 // Verify email
 Route::get('verify-email/{id}/{hash}', [VerifyEmailApiController::class, '__invoke'])
     ->middleware('signed')
     ->name('api.verification.verify');
-
-

@@ -7,8 +7,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
-
-
 class PasswordResetLinkApiController extends Controller
 {
     public function store(Request $request): JsonResponse

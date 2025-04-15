@@ -13,6 +13,15 @@ class AuthenticatedTokenApiController extends Controller
     {
         $request->authenticate();
 
+        $user = $request->user();
+
+        // Kiểm tra nếu email chưa được xác minh
+        // if (!$user->hasVerifiedEmail()) {
+        //     return response()->json([
+        //         'message' => 'Your email address is not verified. Please verify your email to log in.',
+        //     ], 403);
+        // }
+
         // Regenerate session is not needed for mobile APIs
         $token = $request->user()->createToken('mobile-app')->plainTextToken;
 
