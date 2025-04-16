@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Auth\NewPasswordApiController;
 use App\Http\Controllers\Api\Auth\PasswordApiController;
 use App\Http\Controllers\Api\Auth\PasswordResetLinkApiController;
 use App\Http\Controllers\Api\Auth\VerifyEmailApiController;
+use App\Http\Controllers\Api\Survey\UserSurveyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\RegisteredUserApiController;
 use Illuminate\Http\Request;
@@ -54,6 +55,11 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('throttle:6,1')
         ->name('api.verification.send');
 
+     Route::post('complete-survey', [UserSurveyController::class, 'completeSurvey'])
+        ->name('api.survey.complete'); // Đường dẫn cho việc hoàn thành khảo sát
+
+    Route::post('survey/update-user-type', [UserSurveyController::class, 'updateUserType'])
+        ->name('api.survey.update-user-type'); // Đường dẫn cho việc cập nhật loại người dùng
 });
 
 // Verify email

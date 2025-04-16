@@ -21,6 +21,7 @@ class RegisteredUserApiController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'confirmed', 'min:6', Rules\Password::defaults()],
+                'user_type' => ['in:student,working'],
             ]
         );
 
@@ -30,14 +31,15 @@ class RegisteredUserApiController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'learner',
+            'user_type' => $request->user_type,
         ]);
+
 
         \Log::info('User created:', ['user' => $user]);
 
         event(new Registered($user));
 
-        // Issue a token for the user
-        $token = $user->createToken('mobile-app')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'User registered successfully',

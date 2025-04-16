@@ -12,23 +12,25 @@ class AuthenticatedTokenApiController extends Controller
     public function store(LoginRequest $request): JsonResponse
     {
         $request->authenticate();
-
         $user = $request->user();
-
-        // Kiểm tra nếu email chưa được xác minh
-        // if (!$user->hasVerifiedEmail()) {
-        //     return response()->json([
-        //         'message' => 'Your email address is not verified. Please verify your email to log in.',
-        //     ], 403);
-        // }
-
         // Regenerate session is not needed for mobile APIs
-        $token = $request->user()->createToken('mobile-app')->plainTextToken;
+        $token = $user->createToken('mobile-app')->plainTextToken;
 
         return response()->json([
             'message' => 'Login successful',
             'token' => $token,
             'user' => $request->user(),
+            'survey_completed' => $user->survey_completed,
+        ], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        // Xóa token hiện tại
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Logged out successfully',
         ], 200);
     }
 
