@@ -8,7 +8,10 @@ use App\Http\Controllers\Api\Auth\NewPasswordApiController;
 use App\Http\Controllers\Api\Auth\PasswordApiController;
 use App\Http\Controllers\Api\Auth\PasswordResetLinkApiController;
 use App\Http\Controllers\Api\Auth\VerifyEmailApiController;
+use App\Http\Controllers\Api\Lessons\LessonController;
 use App\Http\Controllers\Api\Survey\UserSurveyController;
+use App\Http\Controllers\Api\VocabularyQuiz\VocabularyController;
+use App\Http\Controllers\Api\VocabularyQuiz\VocabularyQuizTopicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\RegisteredUserApiController;
 use Illuminate\Http\Request;
@@ -55,11 +58,20 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('throttle:6,1')
         ->name('api.verification.send');
 
-     Route::post('complete-survey', [UserSurveyController::class, 'completeSurvey'])
-        ->name('api.survey.complete'); // Đường dẫn cho việc hoàn thành khảo sát
+    Route::post('complete-survey', [UserSurveyController::class, 'completeSurvey'])
+        ->name('api.survey.complete');
 
     Route::post('survey/update-user-type', [UserSurveyController::class, 'updateUserType'])
-        ->name('api.survey.update-user-type'); // Đường dẫn cho việc cập nhật loại người dùng
+        ->name('api.survey.update-user-type');
+
+    Route::get('lessons', [LessonController::class, 'index'])
+        ->name('api.lessons.index');
+
+    Route::get('vocabulary-quiz-topics', [VocabularyQuizTopicController::class, 'index'])
+        ->name('api.vocabulary-quiz-topics.index');
+
+    Route::post('vocabulary-by-difficulty', [VocabularyController::class, 'getVocabularyByDifficulty'])
+        ->name('api.vocabulary-by-difficulty');
 });
 
 // Verify email

@@ -10,13 +10,17 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('lessons', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->enum('level', ['easy', 'medium', 'hard']);
-            $table->enum('user_type', ['student', 'working']);
+            $table->unsignedBigInteger('question_id');
+            $table->text('answer_text');
             $table->timestamps();
+
+            // Define foreign key constraint
+            $table->foreign('question_id')
+                ->references('id')
+                ->on('questions')
+                ->onDelete('cascade');
         });
     }
 
@@ -25,6 +29,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('answers');
     }
 };

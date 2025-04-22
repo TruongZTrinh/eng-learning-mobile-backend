@@ -10,12 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('lessons', function (Blueprint $table) {
+        Schema::create('listening_options', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->enum('level', ['easy', 'medium', 'hard']);
-            $table->enum('user_type', ['student', 'working']);
+            $table->foreignId('listening_question_id')
+                ->constrained('listening_questions')
+                ->onDelete('cascade');
+            $table->string('option_text');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('listening_options');
     }
 };

@@ -10,12 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('lessons', function (Blueprint $table) {
+        Schema::create('vocabulary_quiz_topics', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->enum('level', ['easy', 'medium', 'hard']);
-            $table->enum('user_type', ['student', 'working']);
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('vocabulary_quiz_topics');
     }
 };
